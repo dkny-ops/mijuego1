@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Race To Win</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#000;
+}
+
+canvas{
+    display:block;
+}
+
+#hud{
+    position:absolute;
+    top:15px;
+    left:15px;
+    color:white;
+    font-size:24px;
+    font-weight:bold;
+    text-shadow:2px 2px 5px black;
+    z-index:10;
+    display:none;
+}
+
+#startScreen{
+    position:absolute;
+    inset:0;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,0.35),
+        rgba(0,0,0,0.75)
+    );
+
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:20;
+}
+
+#menuPanel{
+    width:450px;
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(8px);
+    border-radius:25px;
+    padding:40px;
+    text-align:center;
+    animation: panelFloat 4s ease-in-out infinite, borderGlow 3s ease-in-out infinite;
+    border:1px solid rgba(0,212,255,0.25);
+    box-shadow:0 0 25px rgba(0,212,255,0.15), 0 0 60px rgba(0,212,255,0.08);
+}
+
+#scoresMenuPanel{
+    width:450px;
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(8px);
+    border-radius:25px;
+    padding:40px;
+    text-align:center;
+    color:white;
+    min-width:350px;
+    max-height:80vh;
+    overflow-y:auto;
+    scrollbar-width:none;
+    border:1px solid rgba(0,212,255,0.25);
+    box-shadow:0 0 25px rgba(0,212,255,0.15), 0 0 60px rgba(0,212,255,0.08);
+    animation:panelFloat 4s ease-in-out infinite, borderGlow 3s ease-in-out infinite;
+}
+
+#scoresMenuPanel::-webkit-scrollbar{
+    display:none;
+}
+
+#gameTitle{
+    font-size:54px;
+    font-weight:900;
+    letter-spacing:8px;
+    margin-bottom:8px;
+    text-transform:uppercase;
+    line-height:1;
+    text-shadow:0 0 10px rgba(255,255,255,0.3), 0 0 25px rgba(0,212,255,0.35);
+}
+
+#subTitle{
+    font-size:20px;
+    color:#cccccc;
+    margin-bottom:35px;
+}
+
+#startScreen h1{
+    font-size:60px;
+    margin-bottom:20px;
+}
+
+#startScreen p{
+    font-size:24px;
+    margin:8px;
+}
+
+#startBtn{
+    width:220px;
+    padding:16px;
+    font-size:24px;
+    font-weight:bold;
+    border:none;
+    border-radius:14px;
+    cursor:pointer;
+    color:white;
+    background:linear-gradient(90deg, #0099ff, #00d4ff);
+    box-shadow:0 0 20px rgba(0,212,255,0.5);
+    transition:0.3s;
+}
+
+#startBtn:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 35px rgba(0,212,255,0.8);
+}
+
+#gameOver{
+    position:absolute;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    color:red;
+    font-size:90px;
+    font-weight:bold;
+    text-shadow:0 0 20px black;
+    z-index:30;
+}
+
+#scoresBtn{
+    margin-top:15px;
+    width:220px;
+    padding:12px;
+    font-size:18px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    background:rgba(255,255,255,0.12);
+    color:white;
+    transition:0.3s;
+}
+
+#titleLine{
+    width:180px;
+    height:3px;
+    margin:20px auto 30px auto;
+    border-radius:10px;
+    background:linear-gradient(90deg, transparent, #00d4ff, transparent);
+    box-shadow:0 0 15px #00d4ff, 0 0 30px #00d4ff;
+}
+
+@keyframes panelFloat{
+    0%{ transform:translateY(0px); }
+    50%{ transform:translateY(-6px); }
+    100%{ transform:translateY(0px); }
+}
+
+@keyframes borderGlow{
+    0%, 100%{ box-shadow:0 0 25px rgba(0,212,255,0.15), 0 0 60px rgba(0,212,255,0.08); }
+    50%{ box-shadow:0 0 35px rgba(0,212,255,0.25), 0 0 90px rgba(0,212,255,0.15); }
+}
+
+#playerStats{
+    margin-top:15px;
+    margin-bottom:30px;
+}
+
+#playerStats p{
+    font-size:16px;
+    color:#bbbbbb;
+    letter-spacing:2px;
+    margin:10px 0;
+}
+
+#lastScore, #lastTime, #totalPoints{
+    color:white;
+    font-weight:bold;
+    font-size:24px;
+    margin-left:8px;
+}
+
+.menu-tagline{
+    margin-top:10px;
+    margin-bottom:12px;
+    text-align:center;
+    font-size:14px;
+    letter-spacing:4px;
+    color:rgba(255,255,255,0.8);
+    text-transform:uppercase;
+    animation:taglinePulse 3s ease-in-out infinite;
+}
+
+@keyframes taglinePulse{
+    0%, 100%{ opacity:0.6; }
+    50%{ opacity:1; }
+}
+
+#scoresBtn:hover{
+    background:rgba(255,255,255,0.22);
+}
+
+#hud {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+
+    color: white;
+    font-size: 22px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+
+    background: rgba(0, 0, 0, 0.45);
+    padding: 15px 25px;
+    border-radius: 15px;
+
+    border: 2px solid rgba(0,170,255,0.7);
+
+    text-shadow:
+        0 0 5px #000,
+        0 0 10px #000;
+
+    backdrop-filter: blur(5px);
+
+    letter-spacing: 1px;
+}
+
+#scoresTabs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+#scoresTabs button{
+
+    width:180px;
+
+    padding:12px;
+
+    border:2px solid #00aaff;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    background:#202020;
+
+    color:white;
+
+    transition:0.25s;
+
+}
+
+#scoresTabs button.active{
+
+    background:#00aaff;
+
+    color:white;
+
+    box-shadow:0 0 15px #00aaff;
+
+}
+
+#scoresTabs button:hover{
+
+    background:#00aaff;
+
+    transform:scale(1.03);
+
+}
+
+</style>
+
+</head>
+<body style="touch-action:none;">
+
+<div id="hud">
+    Player: <span id="hudPlayerName">---</span><br>
+    Score: <span id="score">0</span><br>
+    Tiempo: <span id="time">0:00</span><br>
+    Distancia: <span id="distance">0</span> m
+</div>
+
+<div id="startScreen">
+    <div id="menuPanel">
+        <h1 id="gameTitle">RACE TO WIN</h1>
+        <div class="menu-tagline">DRIVE • COMPETE • WIN</div>
+        <div id="titleLine"></div>
+        <p style="margin-bottom:15px;">
+
+<br><br>
+
+<input
+id="playerName"
+type="text"
+maxlength="12"
+placeholder="Enter your name"
+style="
+width:220px;
+padding:10px;
+border-radius:10px;
+border:none;
+text-align:center;
+font-size:18px;
+">
+
+</p>
+        <div id="playerStats">
+            <p>LAST SCORE <span id="lastScore">0</span></p>
+            <p>TOTAL POINTS <span id="totalPoints">0</span></p>
+            <p>LAST TIME <span id="lastTime">0</span></p>
+        </div>
+        <button id="startBtn">PLAY</button>
+        <br>
+        <button id="scoresBtn">SCORES</button>
+    </div>
+</div>
+
+<div id="gameOver">GAME OVER</div>
+
+<div id="scoresPanel" style="position:absolute; inset:0; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.9); z-index:50;">
+    <div id="scoresMenuPanel">
+        <h2 style="font-size:40px; letter-spacing:4px; margin-bottom:20px;">TOP SCORES</h2>
+
+        <div id="scoresTabs">
+
+    <button id="weeklyTab">WEEKLY</button>
+
+    <button id="worldTab">🌎 WORLD PLAYERS</button>
+
+</div>
+
+        <div id="scoresList" style="margin-top:20px; margin-bottom:20px; font-size:16px;"></div>
+    
+        <h3>TOTAL: <span id="totalScore">0</span></h3>
+        <button id="closeScores" style="margin-top:25px; width:180px; height:45px; font-size:16px; cursor:pointer; display:block; margin-left:auto; margin-right:auto;">BACK TO MENU</button>
+    </div>
+</div>
+
+<div id="countdown" style="position:absolute; inset:0; display:none; justify-content:center; align-items:center; font-size:150px; font-weight:bold; color:white; text-shadow:0 0 20px black; z-index:40;">3</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<audio id="bgMusic" src="music/race.mp3" loop></audio>
+<script src="game.js"></script>
+
+
+</body>
+</html>
