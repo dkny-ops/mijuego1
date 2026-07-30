@@ -291,22 +291,11 @@ loader.load(
     }
 );
 
-loader.load(
 
-    "models/McLaren.glb",
-
-    (gltf)=>{
-
-        mclarenModel =
-        gltf.scene;
-
-    }
-
-);
 
 
 loader.load(
-    "models/textures/taxi.glb",
+    "models/taxi.glb",
     function(gltf){
 
         taxiModel = gltf.scene;
@@ -317,7 +306,7 @@ loader.load(
 );
 
 loader.load(
-    "models/textures/sedan.glb",
+    "models/sedan.glb",
     function(gltf){
 
         sedanModel = gltf.scene;
@@ -328,7 +317,7 @@ loader.load(
 );
 
 loader.load(
-    "models/textures/van.glb",
+    "models/van.glb",
     function(gltf){
 
         vanModel = gltf.scene;
@@ -337,7 +326,7 @@ loader.load(
 );
 
 loader.load(
-    "models/textures/police.glb",
+    "models/police.glb",
     function(gltf){
 
         policeModel = gltf.scene;
@@ -346,7 +335,7 @@ loader.load(
 );
 
 loader.load(
-    "models/textures/suv.glb",
+    "models/suv.glb",
     function(gltf){
 
         suvModel = gltf.scene;
@@ -355,7 +344,7 @@ loader.load(
 );
 
 loader.load(
-    "models/textures/delivery.glb",
+    "models/delivery.glb",
     function(gltf){
 
         delivery = gltf.scene;
