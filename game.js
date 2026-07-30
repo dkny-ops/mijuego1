@@ -57,6 +57,13 @@ const playerNameInput = document.getElementById("playerName");
 
 let playerName = localStorage.getItem("raceToWinPlayerName") || "";
 
+let playerId = localStorage.getItem("raceToWinPlayerId");
+
+if (!playerId) {
+    playerId = crypto.randomUUID();
+    localStorage.setItem("raceToWinPlayerId", playerId);
+}
+
 playerNameInput.value = playerName;
 
 playerNameInput.addEventListener("input", () => {
@@ -999,11 +1006,13 @@ let currentScore = Math.floor(score);
 
 let existingPlayer =
 playerScores.find(
-    p => p.name === playerName
+    p => p.playerId === playerId
 );
 
 
 if(existingPlayer){
+
+    existingPlayer.name = playerName || "PLAYER";
 
     if(currentScore > existingPlayer.score){
 
@@ -1014,6 +1023,8 @@ if(existingPlayer){
 }else{
 
     playerScores.push({
+
+        playerId: playerId,
 
         name: playerName || "PLAYER",
 
