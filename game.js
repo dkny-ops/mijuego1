@@ -358,6 +358,8 @@ loader.load(
 
     function(gltf){
 
+        console.log("RACE CARGADO");
+
         const carModel = gltf.scene;
 
         carModel.scale.set(
