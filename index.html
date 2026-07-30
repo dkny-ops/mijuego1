@@ -19,16 +19,20 @@ body{
     background:#000;
 }
 
-canvas{
+
+    canvas{
+    width:100vw;
+    height:100vh;
     display:block;
 }
+
 
 #hud{
     position:absolute;
     top:15px;
     left:15px;
     color:white;
-    font-size:24px;
+    font-size:clamp(14px, 4vw, 24px);
     font-weight:bold;
     text-shadow:2px 2px 5px black;
     z-index:10;
