@@ -59,15 +59,33 @@ body{
 }
 
 #menuPanel{
-    width:450px;
+    width:min(450px, calc(100vw - 30px));
+    max-height:calc(100vh - 30px);
+
+    box-sizing:border-box;
+
     background:rgba(0,0,0,0.35);
+
     backdrop-filter:blur(8px);
+
     border-radius:25px;
-    padding:40px;
+
+    padding:clamp(20px, 5vw, 40px);
+
     text-align:center;
-    animation: panelFloat 4s ease-in-out infinite, borderGlow 3s ease-in-out infinite;
+
+    overflow-y:auto;
+    scrollbar-width:none;
+
+    animation:
+        panelFloat 4s ease-in-out infinite,
+        borderGlow 3s ease-in-out infinite;
+
     border:1px solid rgba(0,212,255,0.25);
-    box-shadow:0 0 25px rgba(0,212,255,0.15), 0 0 60px rgba(0,212,255,0.08);
+
+    box-shadow:
+        0 0 25px rgba(0,212,255,0.15),
+        0 0 60px rgba(0,212,255,0.08);
 }
 
 #scoresMenuPanel{
@@ -433,6 +451,241 @@ body{
     background:#00aaff;
 
     transform:scale(1.03);
+
+}
+
+/* ==================================================
+   ADAPTACION A TODAS LAS PANTALLAS
+   ================================================== */
+
+#gameTitle{
+    font-size:clamp(34px, 8vw, 54px) !important;
+    letter-spacing:clamp(3px, 1.5vw, 8px);
+}
+
+#startScreen h1{
+    font-size:clamp(34px, 8vw, 60px);
+}
+
+#startScreen p{
+    font-size:clamp(16px, 4vw, 24px);
+}
+
+#playerName{
+    width:min(220px, 80vw) !important;
+    font-size:clamp(15px, 4vw, 18px) !important;
+}
+
+#startBtn,
+#scoresBtn{
+    width:min(220px, 80vw);
+}
+
+#playerStats p{
+    font-size:clamp(13px, 3.5vw, 16px);
+}
+
+#lastScore,
+#lastTime,
+#totalPoints{
+    font-size:clamp(18px, 5vw, 24px);
+}
+
+
+/* ---------- SCORES ---------- */
+
+#scoresMenuPanel{
+
+    width:min(450px, calc(100vw - 30px));
+
+    min-width:0;
+
+    max-height:calc(100vh - 30px);
+
+    box-sizing:border-box;
+
+    padding:clamp(20px, 5vw, 40px);
+
+}
+
+#scoresMenuPanel h2{
+
+    font-size:clamp(26px, 7vw, 40px) !important;
+
+}
+
+#scoresTabs{
+
+    flex-wrap:wrap;
+
+}
+
+#scoresTabs button{
+
+    width:min(180px, 42vw);
+
+    font-size:clamp(12px, 3vw, 16px);
+
+}
+
+
+/* ---------- GAME OVER ---------- */
+
+#gameOverPanel{
+
+    width:min(450px, calc(100vw - 30px));
+
+    max-height:calc(100vh - 30px);
+
+    box-sizing:border-box;
+
+    padding:clamp(20px, 5vw, 40px);
+
+    overflow-y:auto;
+
+}
+
+#gameOverPanel h1{
+
+    font-size:clamp(42px, 12vw, 70px);
+
+    margin-bottom:clamp(20px, 5vw, 35px);
+
+}
+
+#gameOverScore{
+
+    font-size:clamp(22px, 6vw, 32px);
+
+}
+
+#gameOverHighScore{
+
+    font-size:clamp(17px, 4vw, 22px);
+
+}
+
+#extraLifeBtn,
+#playAgainBtn{
+
+    width:min(260px, 80vw);
+
+}
+
+
+/* ---------- CELULAR EN HORIZONTAL ---------- */
+
+@media (orientation:landscape) and (max-height:600px){
+
+    #menuPanel{
+
+        max-height:calc(100vh - 20px);
+
+        padding:15px 25px;
+
+    }
+
+    #gameTitle{
+
+        font-size:clamp(28px, 7vh, 44px) !important;
+
+        margin-bottom:4px;
+
+    }
+
+    .menu-tagline{
+
+        font-size:11px;
+
+        margin-top:5px;
+
+        margin-bottom:5px;
+
+    }
+
+    #titleLine{
+
+        margin:10px auto 15px auto;
+
+    }
+
+    #playerStats{
+
+        margin-top:8px;
+
+        margin-bottom:12px;
+
+    }
+
+    #playerStats p{
+
+        margin:5px 0;
+
+    }
+
+    #startBtn{
+
+        padding:10px;
+
+        font-size:20px;
+
+    }
+
+    #scoresBtn{
+
+        margin-top:8px;
+
+        padding:9px;
+
+        font-size:16px;
+
+    }
+
+    #gameOverPanel{
+
+        max-height:calc(100vh - 20px);
+
+        padding:15px 25px;
+
+    }
+
+    #gameOverPanel h1{
+
+        font-size:clamp(35px, 10vh, 55px);
+
+        margin-bottom:12px;
+
+    }
+
+    #gameOverScore{
+
+        margin-bottom:8px;
+
+    }
+
+    #gameOverHighScore{
+
+        margin-bottom:15px;
+
+    }
+
+    #extraLifeBtn{
+
+        height:48px;
+
+        margin-bottom:8px;
+
+    }
+
+    #playAgainBtn{
+
+        height:45px;
+
+    }
+
+    #menuPanel::-webkit-scrollbar{
+    display:none;
+}
 
 }
 
