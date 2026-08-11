@@ -33,6 +33,13 @@ const timeEl = document.getElementById("time");
 const distanceEl =
 document.getElementById("distance");
 
+const extraLifeBtn = document.getElementById("extraLifeBtn");
+const playAgainBtn = document.getElementById("playAgainBtn");
+
+let extraLifeUsed = false;
+let invulnerableUntil = 0;
+let gameOverTimer;
+
 const music = new Audio("music/race.mp3");  
 
 music.loop = true;
@@ -82,6 +89,12 @@ hudPlayerName.textContent = playerName || "PLAYER";
 
 const gameOverEl = document.getElementById("gameOver");
 const hud = document.getElementById("hud");
+
+const gameOverScoreEl =
+document.getElementById("gameOverScore");
+
+const gameOverHighScoreEl =
+document.getElementById("gameOverHighScore");
 
 const cityBuildings = [];
 
@@ -982,6 +995,9 @@ music.currentTime = 0;
 lastScoreEl.textContent =
 Math.floor(score);
 
+gameOverScoreEl.textContent =
+"Score: " + Math.floor(score);
+
 
 const todayKey =
 new Date().toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
@@ -1007,6 +1023,14 @@ let currentScore = Math.floor(score);
 let existingPlayer =
 playerScores.find(
     p => p.playerId === playerId
+);
+
+gameOverHighScoreEl.textContent =
+"High Score: " +
+(
+    existingPlayer
+    ? Math.max(existingPlayer.score, currentScore)
+    : currentScore
 );
 
 
@@ -1076,23 +1100,31 @@ endMinutes +
 String(endSeconds)
 .padStart(2,"0");
 
+if(extraLifeUsed){
+
+    extraLifeBtn.style.display = "none";
+
+}else{
+
+    extraLifeBtn.style.display = "block";
+
+}
+
 gameOverEl.style.display =
 "flex";
 
-setTimeout(()=>{
+gameOverTimer = setTimeout(() => {
 
-    gameOverEl.style.display =
-    "none";
+    gameOverEl.style.display = "none";
 
-    startScreen.style.display =
-    "flex";
+    startScreen.style.display = "flex";
 
-    hud.style.display =
-    "none";
+    hud.style.display = "none";
 
     clearTraffic();
 
-},3000);
+}, 3000);
+
 
 
 }
@@ -1102,6 +1134,8 @@ setTimeout(()=>{
 //--------------------------------------------------
 
 function startGame(){
+
+    extraLifeUsed = false;
 
    totalPoints = calculateWeeklyTotal();
 totalPointsEl.textContent = totalPoints;
@@ -1326,7 +1360,6 @@ closeScores.addEventListener(
 
 }
 );
-
 startBtn.addEventListener("click", () => {
 
     if(music.paused){
@@ -1338,6 +1371,38 @@ startBtn.addEventListener("click", () => {
     console.log("BOTON FUNCIONA");
 
     startGame();
+
+});
+
+
+playAgainBtn.addEventListener("click", () => {
+
+    clearTimeout(gameOverTimer);
+
+    gameOverEl.style.display = "none";
+
+    music.play().catch(()=>{});
+
+    startGame();
+
+});
+
+extraLifeBtn.addEventListener("click", () => {
+
+    if(extraLifeUsed) return;
+
+    clearTimeout(gameOverTimer);
+
+    extraLifeUsed = true;
+
+    gameOverEl.style.display = "none";
+
+    invulnerableUntil = Date.now() + 5000;
+
+    gameOver = false;
+    gameRunning = true;
+
+    music.play().catch(()=>{});
 
 });
 
@@ -1519,6 +1584,8 @@ if(gameRunning){
 //--------------------------------------------------
 
 if(
+
+    Date.now() >= invulnerableUntil &&
 
     checkCollision(
         player,

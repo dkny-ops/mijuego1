@@ -139,14 +139,155 @@ body{
 #gameOver{
     position:absolute;
     inset:0;
+
     display:none;
+
     justify-content:center;
     align-items:center;
-    color:red;
-    font-size:90px;
-    font-weight:bold;
-    text-shadow:0 0 20px black;
+
+    background:rgba(0,0,0,0.65);
+
+    backdrop-filter:blur(5px);
+
     z-index:30;
+}
+
+
+#gameOverPanel{
+
+    width:450px;
+
+    padding:40px;
+
+    background:rgba(0,0,0,0.75);
+
+    border-radius:25px;
+
+    text-align:center;
+
+    border:2px solid rgba(0,212,255,0.6);
+
+    box-shadow:
+        0 0 30px rgba(0,212,255,0.25),
+        0 0 70px rgba(0,212,255,0.12);
+
+}
+
+
+#gameOverPanel h1{
+
+    font-size:70px;
+
+    line-height:0.95;
+
+    margin-bottom:35px;
+
+    color:#ff4545;
+
+    text-shadow:
+        0 0 15px rgba(255,60,60,0.5);
+
+}
+
+
+#gameOverScore{
+
+    font-size:32px;
+
+    color:white;
+
+    margin-bottom:15px;
+
+}
+
+
+#gameOverHighScore{
+
+    font-size:22px;
+
+    color:#00d4ff;
+
+    margin-bottom:35px;
+
+}
+
+
+#extraLifeBtn{
+
+    display:block;
+
+    width:260px;
+
+    height:60px;
+
+    margin:0 auto 15px auto;
+
+    border:none;
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            90deg,
+            #00aaff,
+            #00d4ff
+        );
+
+    box-shadow:
+        0 0 20px rgba(0,212,255,0.45);
+
+}
+
+
+#playAgainBtn{
+
+    display:block;
+
+    width:260px;
+
+    height:55px;
+
+    margin:0 auto;
+
+    border:1px solid rgba(255,255,255,0.25);
+
+    border-radius:15px;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    color:white;
+
+    background:rgba(255,255,255,0.10);
+
+}
+
+
+#extraLifeBtn:hover{
+
+    transform:scale(1.04);
+
+    box-shadow:
+        0 0 30px rgba(0,212,255,0.7);
+
+}
+
+
+#playAgainBtn:hover{
+
+    background:rgba(255,255,255,0.20);
+
 }
 
 #scoresBtn{
@@ -342,7 +483,31 @@ font-size:18px;
     </div>
 </div>
 
-<div id="gameOver">GAME OVER</div>
+<div id="gameOver">
+
+    <div id="gameOverPanel">
+
+        <h1>GAME<br>OVER</h1>
+
+        <div id="gameOverScore">
+            Score: <span id="finalScore">0</span>
+        </div>
+
+        <div id="gameOverHighScore">
+            High Score: <span id="highScore">0</span>
+        </div>
+
+        <button id="extraLifeBtn">
+            EXTRA LIFE
+        </button>
+
+        <button id="playAgainBtn">
+            PLAY AGAIN
+        </button>
+
+    </div>
+
+</div>
 
 <div id="scoresPanel" style="position:absolute; inset:0; display:none; justify-content:center; align-items:center; background:rgba(0,0,0,0.9); z-index:50;">
     <div id="scoresMenuPanel">
